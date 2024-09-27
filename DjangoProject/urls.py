@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from task1.views import based, shop, basket, sign_up_by_django
 
 urlpatterns = [
@@ -23,5 +23,6 @@ urlpatterns = [
     path('based/', based),
     path('based/basket', basket.as_view()),
     path('based/shop', shop),
-    path('', sign_up_by_django),
+    path('django_sign_up/', sign_up_by_django),
+    path('task/', include('task.urls', namespace='task')),
 ]

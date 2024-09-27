@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"  type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div>
+        {% for post in page_obj %}
+            <i>{{ post.title }} - {{ post.date }}</i><br>
+        {% endfor %}
+    </div>
+
+    <div>
+    <table width="20%">
+        <tr>
+            <td width="33%">
+    {% if page_obj.has_other_pages %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&pag={{ pag }}">&lt;&lt;</a>
+        {% endif %}
+            </td>
+            <td width="33%">
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                {{ i }}
+            {% else %}
+                <a href="?page={{ i }}&pag={{ pag }}">{{ i }}</a>
+            {% endif%}
+        {% endfor %}
+            </td>
+            <td width="33%" style="text-align: right">
+        {% if page_obj.has_next %}
+           <a href="?page={{ page_obj.next_page_number }}&pag={{ pag }}">&gt;&gt;</a>
+        {% endif %}
+    {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center">
+                <form method="POST">
+                    {% csrf_token %}
+                    Кол-во постов на стр.
+                    <select name="select">
+                        {% for p in select_chouis %}
+                            {% if p == pag  %}
+                                <option value={{ pag }} selected>{{ p }}</option>
+                            {% else %}
+                                <option value={{ p }} >{{ p }}</option>
+                            {% endif %}
+                        {% endfor %}
+
+                      </select>
+                    <button type="submit">ok</button>
+                </form>
+
+            </td>
+        </tr>
+    </table>
+    </div>
+</body>
+</html>
